@@ -131,6 +131,7 @@ namespace FZTools
                 }
                 pb.enabled = false;
             });
+            pbRoot.transform.SetAsFirstSibling();
         }
 
         void CreatePBC(GameObject rootObj)
@@ -149,6 +150,8 @@ namespace FZTools
                 {
                     newPBC.rootTransform = pbc.transform;
                 }
+                newPBC.transform.position = pbc.transform.position;
+                newPBC.transform.rotation = pbc.transform.rotation;
                 pbc.enabled = false;
             });
         }
@@ -163,6 +166,14 @@ namespace FZTools
                 contactObj.transform.SetParent(contactRoot.transform);
                 UnityEditorInternal.ComponentUtility.CopyComponent(contact);
                 UnityEditorInternal.ComponentUtility.PasteComponentAsNew(contactObj);
+
+                ContactBase newContact = contactObj.GetComponent<ContactBase>();
+                if (newContact.rootTransform == null)
+                {
+                    newContact.rootTransform = contact.transform;
+                }
+                newContact.transform.position = contact.transform.position;
+                newContact.transform.rotation = contact.transform.rotation;
                 contact.enabled = false;
             });
         }
